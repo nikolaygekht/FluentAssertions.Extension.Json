@@ -1,29 +1,35 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Text.Json;
-using System.Threading.Tasks;
+# FluentAssertions.Extension.Json
 
-namespace FluentAssertions.Extension.Json.Demo
+The library is an extensions for validating a json documents in [Fluent assertions](https://fluentassertions.com/introduction)
+
+The library is distributed under Apache license.
+
+The source code of the library can be found at [github](https://github.com/nikolaygekht/FluentAssertions.Extension.Json)
+
+Unlike `FluentAssertions.Json` it is based on `System.Text.Json` instead of `Newtonsoft.Json`.
+
+The syntax of the assertions is self-explaining.
+
+Please check the example below for details:
+
+Test Json file
+
+```json
 {
-    public static class Program
-    {
-        public static void Main(string[] args)
-        {
-            //prepare json
-            var source = new
-            {
-                a = new { a1 = "text" },
-                b = true,
-                c = false,
-                d = 1,
-                e = 3.1415,
-                f = "string",
-                i = new object[] { 1, 2, 3 }
-            };
-            
-            var jsonText = JsonSerializer.Serialize(source);
+    "a" : { "a1" : "text" },
+    "b" : true,
+    "c" : false,
+    "d" : 1,
+    "e" : 3.1415,
+    "f" : "string",
+    "i" : [ 1, 2, 3 ],
+    "j" : null
+}
+```
+
+The assertions
+
+```csharp
 
             //validate that the text is a correct json
             jsonText.Should().BeCorrectJson();
@@ -35,7 +41,7 @@ namespace FluentAssertions.Extension.Json.Demo
             json.Should()
                 .HaveProperty("a");
 
-            //validate that json has a property and the property is an object and has a text property 
+            //validate that json has a property and the property is an object and has a text property
             //using which property
             json.Should()
                 .HaveProperty("a")
@@ -55,10 +61,10 @@ namespace FluentAssertions.Extension.Json.Demo
                     .BeObject()
                     .And
                     .HaveProperty("a1");
-            
+
             json.GetProperty("a").GetProperty("a1").Should()
                     .Be("text");
-                        
+
             //validate boolean properties
             json.Should()
                 .HaveProperty("b")
@@ -119,6 +125,9 @@ namespace FluentAssertions.Extension.Json.Demo
                 .BeValue()
                 .And
                 .Be(1);
-        }
-    }
-}
+
+            json.Should()
+                .HaveProperty("j")
+                .Which.Should()
+                    .BeNull();
+```
