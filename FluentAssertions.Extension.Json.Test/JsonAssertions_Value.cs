@@ -239,5 +239,60 @@ namespace FluentAssertions.Extension.Json.Test
             ((Action)(() => node.Should().Match("A.+", RegexOptions.IgnoreCase))).Should().NotThrow<XunitException>();
         }
 
+        [Fact]
+        public void MatchString_Fail_Value()
+        {
+            var node = "{ \"a\" : \"abc\" }".AsJson().GetProperty("a");
+            ((Action)(() => node.Should().Match("^b.+"))).Should().Throw<XunitException>();
+        }
+
+        [Fact]
+        public void MatchString_Fail_Type()
+        {
+            var node = "{ \"a\" : 1 }".AsJson().GetProperty("a");
+            ((Action)(() => node.Should().Match("^b.+"))).Should().Throw<XunitException>();
+        }
+
+        [Fact]
+        public void BeStringMatching_OK()
+        {
+            var node = "{ \"a\" : \"abc\" }".AsJson().GetProperty("a");
+            ((Action)(() => node.Should().BeStringMatching(s => s == "abc"))).Should().NotThrow<XunitException>();
+        }
+
+        [Fact]
+        public void BeStringMatching_Fail()
+        {
+            var node = "{ \"a\" : \"abc\" }".AsJson().GetProperty("a");
+            ((Action)(() => node.Should().BeStringMatching(s => s != "abc"))).Should().Throw<XunitException>();
+        }
+
+        [Fact]
+        public void BeIntegerMatching_OK()
+        {
+            var node = "{ \"a\" : 1 }".AsJson().GetProperty("a");
+            ((Action)(() => node.Should().BeIntegerMatching(s => s == 1))).Should().NotThrow<XunitException>();
+        }
+
+        [Fact]
+        public void BeIntegerMatching_Fail()
+        {
+            var node = "{ \"a\" : 1 }".AsJson().GetProperty("a");
+            ((Action)(() => node.Should().BeIntegerMatching(s => s == 2))).Should().Throw<XunitException>();
+        }
+
+        [Fact]
+        public void BeDoubleMatching_OK()
+        {
+            var node = "{ \"a\" : 1 }".AsJson().GetProperty("a");
+            ((Action)(() => node.Should().BeNumberMatching(s => s >= 1))).Should().NotThrow<XunitException>();
+        }
+
+        [Fact]
+        public void BeDoubleMatching_Fail()
+        {
+            var node = "{ \"a\" : 1 }".AsJson().GetProperty("a");
+            ((Action)(() => node.Should().BeNumberMatching(s => s < 1))).Should().Throw<XunitException>();
+        }
     }
 }

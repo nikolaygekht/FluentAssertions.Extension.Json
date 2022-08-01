@@ -28,6 +28,14 @@ namespace FluentAssertions.Extension.Json
         /// <returns></returns>
         public static JsonElement AsJson(this string value) => JsonSerializer.Deserialize<JsonDocument>(value).RootElement;
 
+        /// <summary>
+        /// Checks whether the element has a property with the name specified
+        /// </summary>
+        /// <param name="element"></param>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        public static bool HaveProperty(this JsonElement element, string name) => element.ValueKind == JsonValueKind.Object && element.TryGetProperty(name, out var _);
+
 
         /// <summary>
         /// Checks whether the string is a correct Json

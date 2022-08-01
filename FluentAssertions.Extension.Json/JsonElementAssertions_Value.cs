@@ -5,6 +5,7 @@ using System.Text;
 using System.Text.Json;
 using System.Text.RegularExpressions;
 using System.Text.Json.Nodes;
+using System.Linq.Expressions;
 
 namespace FluentAssertions.Extension.Json
 {
@@ -71,6 +72,7 @@ namespace FluentAssertions.Extension.Json
         /// <summary>
         /// Check whether the node is a specified boolean value
         /// </summary>
+        /// <param name="value"></param>
         /// <param name="because"></param>
         /// <param name="becauseParameters"></param>
         /// <returns></returns>
@@ -101,10 +103,11 @@ namespace FluentAssertions.Extension.Json
         /// Checks whether the node is approximately equal to a double value
         /// </summary>
         /// <param name="value"></param>
+        /// <param name="accuracy"></param>
         /// <param name="because"></param>
         /// <param name="becauseParameters"></param>
         /// <returns></returns>
-        public AndConstraint<JsonElementAssertions> Be(double value, double accurancy = 1e-15, string because = null, params object[] becauseParameters)
+        public AndConstraint<JsonElementAssertions> Be(double value, double accuracy = 1e-15, string because = null, params object[] becauseParameters)
         {
             Execute.Assertion
                 .BecauseOf(because, becauseParameters)
@@ -112,16 +115,17 @@ namespace FluentAssertions.Extension.Json
                 .ForCondition(json => json.ValueKind == JsonValueKind.Number)
                 .FailWith("Expected {context:json} should be a number but it is {0}", Subject.ValueKind)
                 .Then
-                .ForCondition(json => Math.Abs(json.GetDouble() - value) < accurancy)
-                .FailWith("Expected {context:json} should be {0}+-{1} but it is {2}", value, accurancy, Subject.GetDouble());
+                .ForCondition(json => Math.Abs(json.GetDouble() - value) < accuracy)
+                .FailWith("Expected {context:json} should be {0}+-{1} but it is {2}", value, accuracy, Subject.GetDouble());
 
             return new AndConstraint<JsonElementAssertions>(this);
         }
 
         /// <summary>
-        /// Checks whether the node is approximately equal to a double value
+        /// Checks whether the node is equal to the string
         /// </summary>
         /// <param name="value"></param>
+        /// <param name="comparison"></param>
         /// <param name="because"></param>
         /// <param name="becauseParameters"></param>
         /// <returns></returns>
@@ -131,7 +135,7 @@ namespace FluentAssertions.Extension.Json
                 .BecauseOf(because, becauseParameters)
                 .Given(() => Subject)
                 .ForCondition(json => json.ValueKind == JsonValueKind.String)
-                .FailWith("Expected {context:json} should be a number but it is {0}", Subject.ValueKind)
+                .FailWith("Expected {context:json} should be a string but it is {0}", Subject.ValueKind)
                 .Then
                 .ForCondition(json => string.Compare(json.GetString(), value, comparison) == 0)
                 .FailWith("Expected {context:json} should be {0} but it is {1}", value, Subject.GetString());
@@ -140,9 +144,10 @@ namespace FluentAssertions.Extension.Json
         }
 
         /// <summary>
-        /// Checks whether the node is approximately equal to a double value
+        /// Checks whether the node matches the regular expression
         /// </summary>
         /// <param name="value"></param>
+        /// <param name="options"></param>
         /// <param name="because"></param>
         /// <param name="becauseParameters"></param>
         /// <returns></returns>
@@ -154,10 +159,79 @@ namespace FluentAssertions.Extension.Json
                 .BecauseOf(because, becauseParameters)
                 .Given(() => Subject)
                 .ForCondition(json => json.ValueKind == JsonValueKind.String)
-                .FailWith("Expected {context:json} should be a number but it is {0}", Subject.ValueKind)
+                .FailWith("Expected {context:json} should be a string but it is {0}", Subject.ValueKind)
                 .Then
                 .ForCondition(json => re.IsMatch(json.GetString()))
                 .FailWith("Expected {context:json} should match {0} but it is {1}", value, Subject.GetString());
+
+            return new AndConstraint<JsonElementAssertions>(this);
+        }
+
+        /// <summary>
+        /// Checks whether the value is an string value and matches the predicate specified
+        /// </summary>
+        /// <param name="predicate"></param>
+        /// <param name="because"></param>
+        /// <param name="becauseParameters"></param>
+        /// <returns></returns>
+        public AndConstraint<JsonElementAssertions> BeStringMatching(Expression<Func<string, bool>> predicate, string because = null, params object[] becauseParameters)
+        {
+            var f = predicate.Compile();
+
+            Execute.Assertion
+                .BecauseOf(because, becauseParameters)
+                .Given(() => Subject)
+                .ForCondition(json => json.ValueKind == JsonValueKind.String)
+                .FailWith("Expected {context:json} should be a string but it is {0}", Subject.ValueKind)
+                .Then
+                .ForCondition(json => f(json.GetString()))
+                .FailWith("Expected {context:json} should match {0} but it is {1}", predicate, Subject.GetString());
+
+            return new AndConstraint<JsonElementAssertions>(this);
+        }
+
+        /// <summary>
+        /// Checks whether the value is an integer value and matches the predicate specified
+        /// </summary>
+        /// <param name="predicate"></param>
+        /// <param name="because"></param>
+        /// <param name="becauseParameters"></param>
+        /// <returns></returns>
+        public AndConstraint<JsonElementAssertions> BeIntegerMatching(Expression<Func<int, bool>> predicate, string because = null, params object[] becauseParameters)
+        {
+            var f = predicate.Compile();
+
+            Execute.Assertion
+                .BecauseOf(because, becauseParameters)
+                .Given(() => Subject)
+                .ForCondition(json => json.ValueKind == JsonValueKind.Number)
+                .FailWith("Expected {context:json} should be a number but it is {0}", Subject.ValueKind)
+                .Then
+                .ForCondition(json => f(json.GetInt32()))
+                .FailWith("Expected {context:json} should match {0} but it is {1}", predicate, Subject.GetInt32());
+
+            return new AndConstraint<JsonElementAssertions>(this);
+        }
+
+        /// <summary>
+        /// Checks whether the value is an real value and matches the predicate specified
+        /// </summary>
+        /// <param name="predicate"></param>
+        /// <param name="because"></param>
+        /// <param name="becauseParameters"></param>
+        /// <returns></returns>
+        public AndConstraint<JsonElementAssertions> BeNumberMatching(Expression<Func<double, bool>> predicate, string because = null, params object[] becauseParameters)
+        {
+            var f = predicate.Compile();
+
+            Execute.Assertion
+                .BecauseOf(because, becauseParameters)
+                .Given(() => Subject)
+                .ForCondition(json => json.ValueKind == JsonValueKind.Number)
+                .FailWith("Expected {context:json} should be a number but it is {0}", Subject.ValueKind)
+                .Then
+                .ForCondition(json => f(json.GetDouble()))
+                .FailWith("Expected {context:json} should match {0} but it is {1}", predicate, Subject.GetDouble());
 
             return new AndConstraint<JsonElementAssertions>(this);
         }
