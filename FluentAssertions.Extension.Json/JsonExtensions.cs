@@ -19,14 +19,14 @@ namespace FluentAssertions.Extension.Json
         /// </summary>
         /// <param name="node"></param>
         /// <returns></returns>
-        public static JsonNodeAssertions Should(this JsonNode node) => new JsonNodeAssertions(node);
+        public static JsonElementAssertions Should(this JsonElement node) => new JsonElementAssertions(node);
 
         /// <summary>
         /// Parses a string into a Json object.
         /// </summary>
         /// <param name="value"></param>
         /// <returns></returns>
-        public static JsonObject AsJson(this string value) => JsonSerializer.Deserialize<JsonObject>(value);
+        public static JsonElement AsJson(this string value) => JsonSerializer.Deserialize<JsonDocument>(value).RootElement;
 
 
         /// <summary>
@@ -45,7 +45,7 @@ namespace FluentAssertions.Extension.Json
                 {
                     try
                     {
-                        return JsonSerializer.Deserialize<JsonObject>(s) != null;
+                        return JsonSerializer.Deserialize<JsonDocument>(s) != null;
                     }
                     catch (Exception)
                     {

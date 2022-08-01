@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Text.Json.Nodes;
+using System.Text.Json;
 using System.Threading.Tasks;
 using Xunit;
 using Xunit.Sdk;
@@ -17,12 +17,14 @@ namespace FluentAssertions.Extension.Json.Test
             var json = "{ \"a\" : \"b\" }".AsJson();
 
             json.Should()
-                .BeOfType<JsonObject>();
+                .BeOfType<JsonElement>();
 
-            json["a"].Should()
-                .NotBeNull();
-
-            json["a"].GetValue<string>().Should().Be("b");
+            json.GetProperty("a").Should()
+                .NotBeNull()
+                .And
+                .Match<JsonElement>(x => x.ValueKind == JsonValueKind.String)
+                .And
+                .Match<JsonElement>(x => x.GetString() == "b");
         }
 
         [Theory]
@@ -36,85 +38,12 @@ namespace FluentAssertions.Extension.Json.Test
 
         [Theory]
         [InlineData("{")]
-        [InlineData("[ a : b ]")]
+        [InlineData("[ a : \"b\" ]")]
+        [InlineData("{ a : \"b\" }")]
         [InlineData("random text")]
         public void BeCorrectJsonTest_Fail(string json)
         {
             ((Action)(() => json.Should().BeCorrectJson())).Should().Throw<XunitException>();
-        }
-    }
-
-    public class JsonAssertions_Object
-    {
-        [Fact]
-        public void BeObject_OK()
-        {
-            var node = new JsonObject();
-            ((Action)(() => node.Should().BeObject())).Should().NotThrow<XunitException>();
-        }
-
-        [Fact]
-        public void BeObject_Fail_Null()
-        {
-            var node = (JsonObject)null;
-            ((Action)(() => node.Should().BeObject())).Should().Throw<XunitException>();
-        }
-
-        [Fact]
-        public void BeObject_Fail_WrongType()
-        {
-            var node = new JsonArray();
-            ((Action)(() => node.Should().BeObject())).Should().Throw<XunitException>();
-        }
-    }
-
-    public class JsonAssertions_Array
-    {
-        [Fact]
-        public void BeArray_OK()
-        {
-            var node = new JsonArray();
-            ((Action)(() => node.Should().BeArray())).Should().NotThrow<XunitException>();
-        }
-
-        [Fact]
-        public void BeArray_Fail_Null()
-        {
-            var node = (JsonArray)null;
-            ((Action)(() => node.Should().BeArray())).Should().Throw<XunitException>();
-
-        }
-
-        [Fact]
-        public void BeArray_Fail_WrongType()
-        {
-            var node = new JsonObject();
-            ((Action)(() => node.Should().BeArray())).Should().Throw<XunitException>();
-        }
-    }
-
-    public class JsonAssertions_Value
-    {
-        [Fact]
-        public void BeValue_OK()
-        {
-            var node = JsonValue.Create(1);
-            ((Action)(() => node.Should().BeValue())).Should().NotThrow<XunitException>();
-        }
-
-        [Fact]
-        public void BeValue_Fail_Null()
-        {
-            var node = (JsonValue)null;
-            ((Action)(() => node.Should().BeValue())).Should().Throw<XunitException>();
-
-        }
-
-        [Fact]
-        public void BeValue_Fail_WrongType()
-        {
-            var node = new JsonArray();
-            ((Action)(() => node.Should().BeValue())).Should().Throw<XunitException>();
         }
     }
 }
