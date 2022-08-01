@@ -7,6 +7,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FluentAssertions.Extension.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FluentAssertions.Extension.Json.Test", "FluentAssertions.Extension.Json.Test\FluentAssertions.Extension.Json.Test.csproj", "{E5DD1B55-470A-41D0-B4A3-C2EB57534FB0}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FluentAssertions.Extension.Json.Demo", "FluentAssertions.Extension.Json.Demo\FluentAssertions.Extension.Json.Demo.csproj", "{D2DBF1C3-9E9D-4AF2-91DE-DDAA0159AA1D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{E5DD1B55-470A-41D0-B4A3-C2EB57534FB0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E5DD1B55-470A-41D0-B4A3-C2EB57534FB0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E5DD1B55-470A-41D0-B4A3-C2EB57534FB0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D2DBF1C3-9E9D-4AF2-91DE-DDAA0159AA1D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D2DBF1C3-9E9D-4AF2-91DE-DDAA0159AA1D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D2DBF1C3-9E9D-4AF2-91DE-DDAA0159AA1D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D2DBF1C3-9E9D-4AF2-91DE-DDAA0159AA1D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

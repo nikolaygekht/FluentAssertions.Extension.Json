@@ -1,33 +1,29 @@
-# FluentAssertions.Extension.Json
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Text.Json;
+using System.Threading.Tasks;
 
-![unit tests](https://github.com/nikolaygekht/FluentAssertions.Extension.Json/actions/workflows/test.yml/badge.svg)
-
-The library is an extensions for validating a json documents in [Fluent assertions](https://fluentassertions.com/introduction)
-
-Unlike `FluentAssertions.Json` it is based on `System.Text.Json` instead of `Newtonsoft.Json`.
-
-The syntax of the assertions is self-explaining. 
-
-Please check the example below for details:
-
-Test Json file
-
-```json
+namespace FluentAssertions.Extension.Json.Demo
 {
-    "a" : { "a1" : "text" },
-    "b" : true,
-    "c" : false,
-    "d" : 1,
-    "e" : 3.1415,
-    "f" : "string",
-    "i" : [ 1, 2, 3 ],
-    "j" : null
-}
-```
-
-The assertions
-
-```csharp
+    public static class Program
+    {
+        public static void Main(string[] args)
+        {
+            //prepare json
+            var source = new
+            {
+                a = new { a1 = "text" },
+                b = true,
+                c = false,
+                d = 1,
+                e = 3.1415,
+                f = "string",
+                i = new object[] { 1, 2, 3 }
+            };
+            
+            var jsonText = JsonSerializer.Serialize(source);
 
             //validate that the text is a correct json
             jsonText.Should().BeCorrectJson();
@@ -133,11 +129,6 @@ The assertions
                 .BeValue()
                 .And
                 .Be(1);
-
-            json.Should()
-                .HaveProperty("j")
-                .Which.Should()
-                    .BeNull();
-
-
-```
+        }
+    }
+}
