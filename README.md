@@ -63,18 +63,6 @@ The assertions
             json.GetProperty("a").GetProperty("a1").Should()
                     .Be("text");
                         
-
-            json.Should()
-                .HaveProperty("a")
-                .Which.Should()
-                    .NotBeNull()
-                    .And
-                    .BeObject()
-                    .And
-                    .HaveProperty("a1")
-                        .Which.Should()
-                        .Be("text");
-
             //validate boolean properties
             json.Should()
                 .HaveProperty("b")
@@ -101,6 +89,8 @@ The assertions
             json.Should()
                 .HaveProperty("e")
                 .Which.Should()
+                    .Be(3.1415)
+                    .And
                     .Be(3.14, 0.005);
 
             //check string for equality
@@ -138,6 +128,4 @@ The assertions
                 .HaveProperty("j")
                 .Which.Should()
                     .BeNull();
-
-
 ```
