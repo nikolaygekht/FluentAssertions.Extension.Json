@@ -1,0 +1,1 @@
+nuget push *.nupkg -ApiKey %gs-nuget-key% -Source %gs-nuget%/v3/index.json
