@@ -32,7 +32,7 @@ namespace FluentAssertions.Extension.Json.Demo
             var json = jsonText.AsJson();
 
             //HaveProperty extension for Json Element
-            json.HaveProperty("a").Should().BeTrue();
+            json.HasProperty("a").Should().BeTrue();
 
             //validate that json has a property
             json.Should()

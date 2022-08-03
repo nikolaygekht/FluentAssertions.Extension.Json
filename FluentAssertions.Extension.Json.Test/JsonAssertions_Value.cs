@@ -294,5 +294,97 @@ namespace FluentAssertions.Extension.Json.Test
             var node = "{ \"a\" : 1 }".AsJson().GetProperty("a");
             ((Action)(() => node.Should().BeNumberMatching(s => s < 1))).Should().Throw<XunitException>();
         }
+
+        [Theory]
+        [InlineData("{ \"test\" : { } }")]
+        [InlineData("{ \"test\" : [ ] }")]
+        [InlineData("{ \"test\" : \"\" }")]
+        public void BeEmpty_OK(string jsonText)
+        {
+            var json = jsonText.AsJson().GetProperty("test");
+            ((Action)(() => json.Should().BeEmpty())).Should().NotThrow<XunitException>();
+        }
+
+        [Theory]
+        [InlineData("{ \"test\" : { \"a\" : null } }")]
+        [InlineData("{ \"test\" : [ 1 ] }")]
+        [InlineData("{ \"test\" : \"a\" }")]
+        [InlineData("{ \"test\" : 1 }")]
+        [InlineData("{ \"test\" : null }")]
+        [InlineData("{ \"test\" : true }")]
+        public void BeEmpty_Fail(string jsonText)
+        {
+            var json = jsonText.AsJson().GetProperty("test");
+            ((Action)(() => json.Should().BeEmpty())).Should().Throw<XunitException>();
+        }
+
+        [Theory]
+        [InlineData("{ \"test\" : { } }")]
+        [InlineData("{ \"test\" : [ ] }")]
+        [InlineData("{ \"test\" : \"\" }")]
+        [InlineData("{ \"test\" : null }")]
+        public void BeNullOrEmpty_OK(string jsonText)
+        {
+            var json = jsonText.AsJson().GetProperty("test");
+            ((Action)(() => json.Should().BeNullOrEmpty())).Should().NotThrow<XunitException>();
+        }
+
+        [Theory]
+        [InlineData("{ \"test\" : { \"a\" : null } }")]
+        [InlineData("{ \"test\" : [ 1 ] }")]
+        [InlineData("{ \"test\" : \"a\" }")]
+        [InlineData("{ \"test\" : 1 }")]
+        [InlineData("{ \"test\" : true }")]
+        public void BeNullOrEmpty_Fail(string jsonText)
+        {
+            var json = jsonText.AsJson().GetProperty("test");
+            ((Action)(() => json.Should().BeNullOrEmpty())).Should().Throw<XunitException>();
+        }
+
+        [Theory]
+        [InlineData("{ \"test\" : { \"a\" : null } }")]
+        [InlineData("{ \"test\" : [ 1 ] }")]
+        [InlineData("{ \"test\" : \"a\" }")]
+        [InlineData("{ \"test\" : 1 }")]
+        [InlineData("{ \"test\" : null }")]
+        [InlineData("{ \"test\" : true }")]
+        public void NotBeEmpty_OK(string jsonText)
+        {
+            var json = jsonText.AsJson().GetProperty("test");
+            ((Action)(() => json.Should().NotBeEmpty())).Should().NotThrow<XunitException>();
+        }
+
+        [Theory]
+        [InlineData("{ \"test\" : { } }")]
+        [InlineData("{ \"test\" : [ ] }")]
+        [InlineData("{ \"test\" : \"\" }")]
+        public void NotBeEmpty_Fail(string jsonText)
+        {
+            var json = jsonText.AsJson().GetProperty("test");
+            ((Action)(() => json.Should().NotBeEmpty())).Should().Throw<XunitException>();
+        }
+
+        [Theory]
+        [InlineData("{ \"test\" : { \"a\" : null } }")]
+        [InlineData("{ \"test\" : [ 1 ] }")]
+        [InlineData("{ \"test\" : \"a\" }")]
+        [InlineData("{ \"test\" : 1 }")]
+        [InlineData("{ \"test\" : true }")]
+        public void NotBeNullOrEmpty_OK(string jsonText)
+        {
+            var json = jsonText.AsJson().GetProperty("test");
+            ((Action)(() => json.Should().NotBeNullOrEmpty())).Should().NotThrow<XunitException>();
+        }
+
+        [Theory]
+        [InlineData("{ \"test\" : { } }")]
+        [InlineData("{ \"test\" : [ ] }")]
+        [InlineData("{ \"test\" : \"\" }")]
+        [InlineData("{ \"test\" : null }")]
+        public void NotBeNullOrEmpty_Fail(string jsonText)
+        {
+            var json = jsonText.AsJson().GetProperty("test");
+            ((Action)(() => json.Should().NotBeNullOrEmpty())).Should().Throw<XunitException>();
+        }
     }
 }

@@ -97,6 +97,7 @@ namespace FluentAssertions.Extension.Json
         /// Checks whether the object has a property matching the predicate
         /// </summary>
         /// <param name="name"></param>
+        /// <param name="predicate"></param>
         /// <param name="because"></param>
         /// <param name="becauseParameters"></param>
         /// <returns></returns>
@@ -126,6 +127,7 @@ namespace FluentAssertions.Extension.Json
         /// Checks whether the object has a property matching the predicate
         /// </summary>
         /// <param name="name"></param>
+        /// <param name="predicate"></param>
         /// <param name="because"></param>
         /// <param name="becauseParameters"></param>
         /// <returns></returns>
@@ -155,6 +157,7 @@ namespace FluentAssertions.Extension.Json
         /// Checks whether the object has a property matching the predicate
         /// </summary>
         /// <param name="name"></param>
+        /// <param name="predicate"></param>
         /// <param name="because"></param>
         /// <param name="becauseParameters"></param>
         /// <returns></returns>

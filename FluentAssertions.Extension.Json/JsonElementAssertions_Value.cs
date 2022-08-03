@@ -52,6 +52,74 @@ namespace FluentAssertions.Extension.Json
 
             return new AndConstraint<JsonElementAssertions>(this);
         }
+        
+        /// <summary>
+        /// Checks whether the node is an empty value
+        /// </summary>
+        /// <param name="because"></param>
+        /// <param name="becauseParameters"></param>
+        /// <returns></returns>
+        public AndConstraint<JsonElementAssertions> BeEmpty(string because = null, params object[] becauseParameters)
+        {
+            Execute.Assertion
+                .BecauseOf(because, becauseParameters)
+                .Given(() => Subject)
+                .ForCondition(json => json.IsEmpty())
+                .FailWith("Expected {context:json} should be a empty value but it is not");
+
+            return new AndConstraint<JsonElementAssertions>(this);
+        }
+
+        /// <summary>
+        /// Checks whether the node is not an empty value
+        /// </summary>
+        /// <param name="because"></param>
+        /// <param name="becauseParameters"></param>
+        /// <returns></returns>
+        public AndConstraint<JsonElementAssertions> NotBeEmpty(string because = null, params object[] becauseParameters)
+        {
+            Execute.Assertion
+                .BecauseOf(because, becauseParameters)
+                .Given(() => Subject)
+                .ForCondition(json => !json.IsEmpty())
+                .FailWith("Expected {context:json} should not be a empty value but it is");
+
+            return new AndConstraint<JsonElementAssertions>(this);
+        }
+
+        /// <summary>
+        /// Checks whether the node is an empty value
+        /// </summary>
+        /// <param name="because"></param>
+        /// <param name="becauseParameters"></param>
+        /// <returns></returns>
+        public AndConstraint<JsonElementAssertions> BeNullOrEmpty(string because = null, params object[] becauseParameters)
+        {
+            Execute.Assertion
+                .BecauseOf(because, becauseParameters)
+                .Given(() => Subject)
+                .ForCondition(json => json.ValueKind == JsonValueKind.Null || json.IsEmpty())
+                .FailWith("Expected {context:json} should be a null or empty value but it is not");
+
+            return new AndConstraint<JsonElementAssertions>(this);
+        }
+
+        /// <summary>
+        /// Checks whether the node is an empty value
+        /// </summary>
+        /// <param name="because"></param>
+        /// <param name="becauseParameters"></param>
+        /// <returns></returns>
+        public AndConstraint<JsonElementAssertions> NotBeNullOrEmpty(string because = null, params object[] becauseParameters)
+        {
+            Execute.Assertion
+                .BecauseOf(because, becauseParameters)
+                .Given(() => Subject)
+                .ForCondition(json => json.ValueKind != JsonValueKind.Null && !json.IsEmpty())
+                .FailWith("Expected {context:json} should not be a null or empty value but it is");
+
+            return new AndConstraint<JsonElementAssertions>(this);
+        }
 
         /// <summary>
         /// Check whether the node is true

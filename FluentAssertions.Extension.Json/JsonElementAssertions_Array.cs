@@ -58,22 +58,5 @@ namespace FluentAssertions.Extension.Json
 
             return new AndConstraint<JsonElementAssertions>(this);
         }
-
-        /// <summary>
-        /// Checks whether the array is empty
-        /// </summary>
-        /// <param name="because"></param>
-        /// <param name="becauseParameters"></param>
-        /// <returns></returns>
-        public AndConstraint<JsonElementAssertions> BeEmpty(string because = null, params object[] becauseParameters) => HaveLength(0, because, becauseParameters);
-
-        /// <summary>
-        /// Checks whether the array is not empty
-        /// </summary>
-        /// <param name="because"></param>
-        /// <param name="becauseParameters"></param>
-        /// <returns></returns>
-        public AndConstraint<JsonElementAssertions> NotBeEmpty(string because = null, params object[] becauseParameters) => HaveLengthAtLeast(1, because, becauseParameters);
-
     }
 }

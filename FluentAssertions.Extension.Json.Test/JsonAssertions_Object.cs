@@ -83,9 +83,9 @@ namespace FluentAssertions.Extension.Json.Test
         {
             var node = "{ \"a\" : null }".AsJson();
 
-            node.HaveProperty("a").Should().BeTrue();
-            node.HaveProperty("b").Should().BeFalse();
-            node.GetProperty("a").HaveProperty("a").Should().BeFalse();
+            node.HasProperty("a").Should().BeTrue();
+            node.HasProperty("b").Should().BeFalse();
+            node.GetProperty("a").HasProperty("a").Should().BeFalse();
         }
 
         [Fact]
@@ -272,5 +272,22 @@ namespace FluentAssertions.Extension.Json.Test
 
             ((Action)(() => node.Should().HaveNullProperty("a"))).Should().Throw<XunitException>();
         }
+
+        [Theory]
+        [InlineData("{ \"test\" : {} }", true)]
+        [InlineData("{ \"test\" : [] }", true)]
+        [InlineData("{ \"test\" : \"\" }", true)]
+        [InlineData("{ \"test\" : { \"a\" : 1 } }", false)]
+        [InlineData("{ \"test\" : [ 1 ] }", false)]
+        [InlineData("{ \"test\" : \"a\" }", false)]
+        [InlineData("{ \"test\" : null }", false)]
+        [InlineData("{ \"test\" : 1 }", false)]
+        [InlineData("{ \"test\" : false }", false)]
+        public void IsEmpty(string jsonText, bool expectedValue)
+        {
+            var json = jsonText.AsJson().GetProperty("test");
+            json.IsEmpty().Should().Be(expectedValue);
+        }
+
     }
 }
