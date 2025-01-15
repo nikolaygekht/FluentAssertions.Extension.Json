@@ -19,7 +19,7 @@ namespace FluentAssertions.Extension.Json
         /// </summary>
         /// <param name="node"></param>
         /// <returns></returns>
-        public static JsonElementAssertions Should(this JsonElement node) => new JsonElementAssertions(node);
+        public static JsonElementAssertions Should(this JsonElement node) => new JsonElementAssertions(node, AssertionChain.GetOrCreate());
 
         /// <summary>
         /// Parses a string into a Json object.
@@ -68,7 +68,7 @@ namespace FluentAssertions.Extension.Json
         /// <returns></returns>
         public static AndConstraint<StringAssertions> BeCorrectJson(this StringAssertions assertions, string because = null, params object[] becauseParameters)
         {
-            Execute.Assertion
+            AssertionChain.GetOrCreate()
                 .BecauseOf(because, becauseParameters)
                 .Given(() => assertions.Subject)
                 .ForCondition(s =>
