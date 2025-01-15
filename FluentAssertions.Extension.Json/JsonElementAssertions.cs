@@ -9,12 +9,16 @@ namespace FluentAssertions.Extension.Json
     /// </summary>
     public partial class JsonElementAssertions : ReferenceTypeAssertions<JsonElement, JsonElementAssertions>
     {
+        private AssertionChain mChain;
+
         /// <summary>
         /// Constructor
         /// </summary>
         /// <param name="subject"></param>
-        public JsonElementAssertions(JsonElement subject) : base(subject)
+        /// <param name="chain"></param>
+        public JsonElementAssertions(JsonElement subject, AssertionChain chain) : base(subject, chain)
         {
+            mChain = chain;
         }
 
         /// <summary>
@@ -31,7 +35,7 @@ namespace FluentAssertions.Extension.Json
         /// <returns></returns>
         public AndConstraint<JsonElementAssertions> BeOfKind(JsonValueKind kind, string because = null, params object[] becauseParameters)
         {
-            Execute.Assertion
+            mChain
                 .BecauseOf(because, becauseParameters)
                 .Given(() => Subject)
                 .ForCondition(json => json.ValueKind == kind)

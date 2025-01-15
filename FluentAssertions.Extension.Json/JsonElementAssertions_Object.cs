@@ -29,7 +29,7 @@ namespace FluentAssertions.Extension.Json
         {
             JsonElement which = new JsonElement();
 
-            Execute.Assertion
+            mChain
                 .BecauseOf(because, becauseParameters)
                 .Given(() => Subject)
                 .ForCondition(json => json.ValueKind == JsonValueKind.Object)
@@ -52,7 +52,7 @@ namespace FluentAssertions.Extension.Json
         {
             JsonElement which = new JsonElement();
 
-            Execute.Assertion
+            mChain
                 .BecauseOf(because, becauseParameters)
                 .Given(() => Subject)
                 .ForCondition(json => json.ValueKind == JsonValueKind.Object)
@@ -78,7 +78,7 @@ namespace FluentAssertions.Extension.Json
         {
             JsonElement which = new JsonElement();
 
-            Execute.Assertion
+            mChain
                 .BecauseOf(because, becauseParameters)
                 .Given(() => Subject)
                 .ForCondition(json => json.ValueKind == JsonValueKind.Object)
@@ -105,7 +105,7 @@ namespace FluentAssertions.Extension.Json
         {
             JsonElement which = new JsonElement();
 
-            Execute.Assertion
+            mChain
                 .BecauseOf(because, becauseParameters)
                 .Given(() => Subject)
                 .ForCondition(json => json.ValueKind == JsonValueKind.Object)
@@ -135,7 +135,7 @@ namespace FluentAssertions.Extension.Json
         {
             JsonElement which = new JsonElement();
 
-            Execute.Assertion
+            mChain
                 .BecauseOf(because, becauseParameters)
                 .Given(() => Subject)
                 .ForCondition(json => json.ValueKind == JsonValueKind.Object)
@@ -165,7 +165,7 @@ namespace FluentAssertions.Extension.Json
         {
             JsonElement which = new JsonElement();
 
-            Execute.Assertion
+            mChain
                 .BecauseOf(because, becauseParameters)
                 .Given(() => Subject)
                 .ForCondition(json => json.ValueKind == JsonValueKind.Object)
@@ -194,7 +194,7 @@ namespace FluentAssertions.Extension.Json
         {
             JsonElement which = new JsonElement();
 
-            Execute.Assertion
+            mChain
                 .BecauseOf(because, becauseParameters)
                 .Given(() => Subject)
                 .ForCondition(json => json.ValueKind == JsonValueKind.Object)

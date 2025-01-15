@@ -19,7 +19,7 @@ namespace FluentAssertions.Extension.Json
         /// <returns></returns>
         public AndConstraint<JsonElementAssertions> BeValue(string because = null, params object[] becauseParameters)
         {
-            Execute.Assertion
+            mChain
                 .BecauseOf(because, becauseParameters)
                 .Given(() => Subject)
                 .ForCondition(json => json.ValueKind == JsonValueKind.String || json.ValueKind == JsonValueKind.Number || json.ValueKind == JsonValueKind.True || json.ValueKind == JsonValueKind.False || json.ValueKind == JsonValueKind.Null)
@@ -44,7 +44,7 @@ namespace FluentAssertions.Extension.Json
         /// <returns></returns>
         new public AndConstraint<JsonElementAssertions> NotBeNull(string because = null, params object[] becauseParameters)
         {
-            Execute.Assertion
+            mChain
                 .BecauseOf(because, becauseParameters)
                 .Given(() => Subject)
                 .ForCondition(json => json.ValueKind != JsonValueKind.Null)
@@ -61,7 +61,7 @@ namespace FluentAssertions.Extension.Json
         /// <returns></returns>
         public AndConstraint<JsonElementAssertions> BeEmpty(string because = null, params object[] becauseParameters)
         {
-            Execute.Assertion
+            mChain
                 .BecauseOf(because, becauseParameters)
                 .Given(() => Subject)
                 .ForCondition(json => json.IsEmpty())
@@ -78,7 +78,7 @@ namespace FluentAssertions.Extension.Json
         /// <returns></returns>
         public AndConstraint<JsonElementAssertions> NotBeEmpty(string because = null, params object[] becauseParameters)
         {
-            Execute.Assertion
+            mChain
                 .BecauseOf(because, becauseParameters)
                 .Given(() => Subject)
                 .ForCondition(json => !json.IsEmpty())
@@ -95,7 +95,7 @@ namespace FluentAssertions.Extension.Json
         /// <returns></returns>
         public AndConstraint<JsonElementAssertions> BeNullOrEmpty(string because = null, params object[] becauseParameters)
         {
-            Execute.Assertion
+            mChain
                 .BecauseOf(because, becauseParameters)
                 .Given(() => Subject)
                 .ForCondition(json => json.ValueKind == JsonValueKind.Null || json.IsEmpty())
@@ -112,7 +112,7 @@ namespace FluentAssertions.Extension.Json
         /// <returns></returns>
         public AndConstraint<JsonElementAssertions> NotBeNullOrEmpty(string because = null, params object[] becauseParameters)
         {
-            Execute.Assertion
+            mChain
                 .BecauseOf(because, becauseParameters)
                 .Given(() => Subject)
                 .ForCondition(json => json.ValueKind != JsonValueKind.Null && !json.IsEmpty())
@@ -155,7 +155,7 @@ namespace FluentAssertions.Extension.Json
         /// <returns></returns>
         public AndConstraint<JsonElementAssertions> Be(int value, string because = null, params object[] becauseParameters)
         {
-            Execute.Assertion
+            mChain
                 .BecauseOf(because, becauseParameters)
                 .Given(() => Subject)
                 .ForCondition(json => json.ValueKind == JsonValueKind.Number)
@@ -177,7 +177,7 @@ namespace FluentAssertions.Extension.Json
         /// <returns></returns>
         public AndConstraint<JsonElementAssertions> Be(double value, double accuracy = 1e-15, string because = null, params object[] becauseParameters)
         {
-            Execute.Assertion
+            mChain
                 .BecauseOf(because, becauseParameters)
                 .Given(() => Subject)
                 .ForCondition(json => json.ValueKind == JsonValueKind.Number)
@@ -199,7 +199,7 @@ namespace FluentAssertions.Extension.Json
         /// <returns></returns>
         public AndConstraint<JsonElementAssertions> Be(string value, StringComparison comparison = StringComparison.InvariantCulture, string because = null, params object[] becauseParameters)
         {
-            Execute.Assertion
+            mChain
                 .BecauseOf(because, becauseParameters)
                 .Given(() => Subject)
                 .ForCondition(json => json.ValueKind == JsonValueKind.String)
@@ -223,7 +223,7 @@ namespace FluentAssertions.Extension.Json
         {
             var re = new Regex(value, options);
 
-            Execute.Assertion
+            mChain
                 .BecauseOf(because, becauseParameters)
                 .Given(() => Subject)
                 .ForCondition(json => json.ValueKind == JsonValueKind.String)
@@ -246,7 +246,7 @@ namespace FluentAssertions.Extension.Json
         {
             var f = predicate.Compile();
 
-            Execute.Assertion
+            mChain
                 .BecauseOf(because, becauseParameters)
                 .Given(() => Subject)
                 .ForCondition(json => json.ValueKind == JsonValueKind.String)
@@ -269,7 +269,7 @@ namespace FluentAssertions.Extension.Json
         {
             var f = predicate.Compile();
 
-            Execute.Assertion
+            mChain
                 .BecauseOf(because, becauseParameters)
                 .Given(() => Subject)
                 .ForCondition(json => json.ValueKind == JsonValueKind.Number)
@@ -292,7 +292,7 @@ namespace FluentAssertions.Extension.Json
         {
             var f = predicate.Compile();
 
-            Execute.Assertion
+            mChain
                 .BecauseOf(because, becauseParameters)
                 .Given(() => Subject)
                 .ForCondition(json => json.ValueKind == JsonValueKind.Number)

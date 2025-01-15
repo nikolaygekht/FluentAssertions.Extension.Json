@@ -26,7 +26,7 @@ namespace FluentAssertions.Extension.Json
         /// <returns></returns>
         public AndConstraint<JsonElementAssertions> HaveLength(int value, string because = null, params object[] becauseParameters)
         {
-            Execute.Assertion
+            mChain
                 .BecauseOf(because, becauseParameters)
                 .Given(() => Subject)
                 .ForCondition(json => json.ValueKind == JsonValueKind.Array)
@@ -47,7 +47,7 @@ namespace FluentAssertions.Extension.Json
         /// <returns></returns>
         public AndConstraint<JsonElementAssertions> HaveLengthAtLeast(int value, string because = null, params object[] becauseParameters)
         {
-            Execute.Assertion
+            mChain
                 .BecauseOf(because, becauseParameters)
                 .Given(() => Subject)
                 .ForCondition(json => json.ValueKind == JsonValueKind.Array)

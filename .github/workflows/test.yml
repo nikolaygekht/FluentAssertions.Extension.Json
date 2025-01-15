@@ -20,7 +20,7 @@ jobs:
     - name: Setup .NET Core
       uses: actions/setup-dotnet@v1
       with:
-        dotnet-version: 6.0.301
+        dotnet-version: 8.0.403
 
       # restore dependencies
     - name: Install dependencies
@@ -53,8 +53,10 @@ jobs:
 
       # upload report as build artifact
     - name: Upload a Build Artifact
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v4
       if: ${{always()}}
       with:
-        name: 'Test Run'
-        path: ${{github.workspace}}/${{env.file_name}}
+        name: 'testrun_${{env.file_name}}'
+        path: ${{github.workspace}}/
+        overwrite: true
+        include-hidden-files: true
